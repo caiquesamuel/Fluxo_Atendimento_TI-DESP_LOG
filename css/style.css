@@ -1,0 +1,32 @@
+:root {
+  --green: #006F3C; /* Cor principal (verde Kawasaki) */
+  --bg: #eef2f1;   /* Cor de fundo da página */
+  --red: #d32f2f;  /* Cor das linhas/conectores */
+}
+
+body { margin:0; font-family:"Segoe UI", Arial; background:var(--bg);} 
+.container { padding:40px; display:flex; flex-direction:column; align-items:center; position:relative; }
+
+h1 { margin-bottom:30px; }
+
+svg { background:white; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
+
+/* Estilo das caixas do fluxograma */ 
+.box { fill:var(--green); rx:10; cursor:pointer;} 
+
+.text { fill:white; font-size:13px; text-anchor:middle; dominant-baseline:middle; pointer-events:none;}
+
+/* Estilo do losango de decisão */ 
+.decision { fill:#000; cursor:pointer;}
+
+/* Linhas de conexão do fluxo */ 
+.line { stroke:var(--red); stroke-width:2; fill:none; marker-end:url(#arrow);} /* adiciona seta no final */
+
+.label { font-size:12px; fill:#333; font-weight:bold;}
+
+/* Painel inferior que mostra os detalhes ao clicar */ 
+.panel { margin-top:20px; background:white; padding:16px 20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.08); width:420px; text-align:center; color:#1f2937;}
+ 
+/* BOTÃO DOWNLOAD */
+.download-btn {position:absolute; top:20px; right:20px; background:#006F3C; color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-size:14px;}
+.download-btn:hover { background:#005a30;}

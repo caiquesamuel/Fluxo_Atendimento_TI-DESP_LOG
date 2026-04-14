@@ -5,31 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fluxo Kawasaki & Despachante</title>
 
-<style>
-:root {
-  --green: #006F3C; /* Cor principal (verde Kawasaki) */
-  --bg: #eef2f1;   /* Cor de fundo da página */
-  --red: #d32f2f;  /* Cor das linhas/conectores */
-}
+<link rel="stylesheet" href="css/style.css">
 
-body { margin:0; font-family:"Segoe UI", Arial; background:var(--bg);} 
-.container { padding:40px; display:flex; flex-direction:column; align-items:center; position:relative; }
-h1 { margin-bottom:30px; }
-svg { background:white; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
-/* Estilo das caixas do fluxograma */ 
-.box { fill:var(--green); rx:10; cursor:pointer;} 
-.text { fill:white; font-size:13px; text-anchor:middle; dominant-baseline:middle; pointer-events:none;}
-/* Estilo do losango de decisão */ 
-.decision { fill:#000; cursor:pointer;}
-/* Linhas de conexão do fluxo */ 
-.line { stroke:var(--red); stroke-width:2; fill:none; marker-end:url(#arrow);} /* adiciona seta no final */
-.label { font-size:12px; fill:#333; font-weight:bold;}
-/* Painel inferior que mostra os detalhes ao clicar */ 
-.panel { margin-top:20px; background:white; padding:16px 20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.08); width:420px; text-align:center; color:#1f2937;} 
-/* BOTÃO DOWNLOAD */
-.download-btn {position:absolute; top:20px; right:20px; background:#006F3C; color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-size:14px;}
-.download-btn:hover { background:#005a30;}
-</style>
 </head>
 <body>
 
@@ -43,11 +20,9 @@ svg { background:white; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.
 <!-- SVG -->
 <svg id="fluxo" width="950" height="700" viewBox="0 0 950 700">
 
-<!-- <svg width="950" height="700" viewBox="0 0 950 700"> -->
-
 <!-- LOGO KAWASAKI -->
 <image 
-  href="Kawasaki-Logo.jpg"
+  href="assets/Kawasaki-Logo.jpg"
   x="30" 
   y="30" 
   width="150" 
@@ -120,84 +95,7 @@ svg { background:white; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.
 
 </div>
 
-<script>
-// Função responsável por atualizar o painel com o texto da etapa clicada 
-function show(text){
-  document.getElementById('panel').innerText = text;
-}
-// Função responsável pelo download da imagem 
-function downloadPNG(){
-  const svg = document.getElementById("fluxo");
-
-  // Clona o SVG
-  const clone = svg.cloneNode(true);
-
-  // Injeta os estilos direto dentro do SVG (ESSENCIAL)
-  const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-  style.textContent = `
-    .box { fill:#006F3C; rx:10; }
-    .text { fill:white; font-size:13px; text-anchor:middle; dominant-baseline:middle; }
-    .decision { fill:#000; }
-    .line { stroke:#d32f2f; stroke-width:2; fill:none; marker-end:url(#arrow); }
-    .label { font-size:12px; fill:#333; font-weight:bold; }
-  `;
-  clone.insertBefore(style, clone.firstChild);
-
-  // Fundo branco (evita imagem escura)
-  const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  bg.setAttribute("width", "100%");
-  bg.setAttribute("height", "100%");
-  bg.setAttribute("fill", "#ffffff");
-  clone.insertBefore(bg, clone.firstChild);
-
-  // Define tamanho fixo
-  const width = svg.clientWidth;
-  const height = svg.clientHeight;
-
-  clone.setAttribute("width", width);
-  clone.setAttribute("height", height);
-
-  // Serializa
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(clone);
-
-  // Canvas em alta resolução
-  const canvas = document.createElement("canvas");
-  const scale = 2;
-  canvas.width = width * scale;
-  canvas.height = height * scale;
-
-  const ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
-
-  const img = new Image();
-
-  // IMPORTANTE: evita problema de encoding
-  const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
-  const url = URL.createObjectURL(svgBlob);
-
-  img.onload = function(){
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.drawImage(img, 0, 0);
-
-    URL.revokeObjectURL(url);
-
-    const link = document.createElement("a");
-    link.download = "fluxo-kawasaki.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  };
-
-  img.onerror = function(){
-    alert("Erro ao gerar imagem. Possível problema com a logo.");
-  };
-
-  img.src = url;
-}
-
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
